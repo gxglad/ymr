@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>内容管理 · 江苏省张家港中等专业学校</title>
+<link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+
+<div id="login">
+  <div class="lcard">
+    <div class="brand"><div class="seal">张</div><h1>内容管理系统</h1></div>
+    <div class="sub">ZHANGJIAGANG SECONDARY SPECIALIZED SCHOOL · CMS</div>
+    <div style="font-size:13px;color:var(--sub);line-height:1.9">发布校园新闻、公告，维护生成的表格模板。<br>发布后刷新门户首页即可看到。</div>
+    <label>账号</label>
+    <input id="u" value="admin" autocomplete="username">
+    <label>密码</label>
+    <input id="p" type="password" value="admin123" autocomplete="current-password">
+    <div class="err" id="err">账号或密码不正确</div>
+    <button class="btn" id="loginBtn">登 录</button>
+    <div class="tip">演示账号：admin / admin123（内容管理员）<br>账号与数据只保存在本机浏览器里，不会上传服务器。</div>
+    <a class="back" href="index.html">← 返回门户首页</a>
+  </div>
+</div>
+
+<div id="app">
+  <div class="top">
+    <div class="l"><div class="seal">张</div><b>江苏省张家港中等专业学校</b><span>内容管理系统</span></div>
+    <div class="r"><a href="index.html" target="_blank">查看门户 →</a><a href="#" id="logout">退出</a></div>
+  </div>
+  <div class="layout">
+    <div class="side">
+      <a href="#" data-s="home" class="on">概览</a>
+      <a href="#" data-s="list">内容管理</a>
+      <a href="#" data-s="new">发布内容</a>
+      <a href="#" data-s="tpl">表格模板</a>
+      <a href="#" data-s="data">数据导入导出</a>
+    </div>
+    <div class="main">
+
+      <div class="sec on" id="s-home">
+        <h2 class="pt">概览</h2>
+        <p class="ps">发布的内容会直接出现在门户的「校园公告」「新闻中心」里。</p>
+        <div class="stats">
+          <div class="stat"><b id="c-ann">0</b><span>校园公告</span></div>
+          <div class="stat"><b id="c-news">0</b><span>校园新闻</span></div>
+          <div class="stat"><b id="c-dept">0</b><span>部门新闻</span></div>
+          <div class="stat"><b id="c-gen">0</b><span>可生成文件</span></div>
+        </div>
+        <div class="card">
+          <h3>最近发布</h3>
+          <table><thead><tr><th style="width:70px">日期</th><th style="width:90px">栏目</th><th>标题</th><th style="width:90px">操作</th></tr></thead>
+          <tbody id="recent"></tbody></table>
+        </div>
+      </div>
+
+      <div class="sec" id="s-list">
+        <h2 class="pt">内容管理</h2>
+        <p class="ps">共 <b id="c-all">0</b> 条。删除后门户同步消失。</p>
+        <div class="bar">
+          <input id="kw" placeholder="搜索标题或部门">
+          <select id="fcat"><option value="">全部栏目</option><option value="ann">校园公告</option><option value="news">校园新闻</option><option value="dept">部门新闻</option></select>
+          <button class="btn ghost" id="addBtn">+ 发布新内容</button>
+        </div>
+        <div class="card" style="padding:6px 8px">
+          <table><thead><tr><th style="width:66px">日期</th><th style="width:78px">栏目</th><th>标题</th><th style="width:150px">部门</th><th style="width:100px">文档</th><th style="width:70px">操作</th></tr></thead>
+          <tbody id="rows"></tbody></table>
+        </div>
+      </div>
+
+      <div class="sec" id="s-new">
+        <h2 class="pt">发布内容</h2>
+        <p class="ps">带 * 的必填。正文每行一段。</p>
+        <div class="card">
+          <div class="grid3">
+            <div class="f"><label>栏目 *</label>
+              <select id="n-g"><option value="ann">校园公告</option><option value="news">校园新闻</option><option value="dept">部门新闻</option></select>
+            </div>
+            <div class="f"><label>分类标签</label><input id="n-cat" placeholder="采购 / 比赛 / 培训 / 学工"></div>
+            <div class="f"><label>日期 *</label><input id="n-d" placeholder="11-20"></div>
+          </div>
+          <div class="grid2">
+            <div class="f"><label>发布部门 *</label><input id="n-dept" placeholder="教学管理处"></div>
+            <div class="f"><label>官网原文编号（可空）</label><input id="n-cid" placeholder="252891"></div>
+          </div>
+          <div class="f"><label>标题 *</label><input id="n-t" placeholder="关于开展……的通知"></div>
+          <div class="f"><label>正文（每行一段）</label><textarea id="n-body" placeholder="第一段&#10;第二段"></textarea></div>
+          <div class="card" style="background:#fafcfe;margin-bottom:16px">
+            <h3>是否附带可生成的文档</h3>
+            <div class="grid2">
+              <div class="f"><label>类型</label>
+                <select id="n-kind"><option value="">不生成（本条无需文件）</option><option value="material">材料清单</option><option value="signup">空白报名表</option></select>
+              </div>
+              <div class="f"><label>表格模板</label><select id="n-tpl"></select></div>
+            </div>
+            <div class="f"><label>文档标题</label><input id="n-gt" placeholder="参赛材料清单"></div>
+            <div class="f"><label>条目（每行一条，仅材料清单用）</label><textarea id="n-items" style="min-height:70px" placeholder="《申请表》一式两份&#10;身份证复印件 1 份"></textarea></div>
+          </div>
+          <button class="btn" id="saveBtn">发布</button>
+          <button class="btn ghost" id="resetBtn">清空表单</button>
+        </div>
+      </div>
+
+      <div class="sec" id="s-tpl">
+        <h2 class="pt">表格模板</h2>
+        <p class="ps">生成文档时套用的表格样式。被引用的模板不能删除。</p>
+        <div id="tplList"></div>
+        <div class="card">
+          <h3>从文档导入模板</h3>
+          <p class="hint">把 Word（.docx）、Excel（.xlsx）、CSV、TXT 拖到下面，自动读出里面的表格，直接变成一张模板。</p>
+          <div class="drop" id="drop">把文件拖到这里，或 <b>点这里选择文件</b></div>
+          <input type="file" id="tfile" accept=".docx,.xlsx,.csv,.txt,.md" hidden>
+          <div id="dropPrev"></div>
+        </div>
+
+        <div class="card">
+          <h3>新建模板</h3>
+          <div class="grid3">
+            <div class="f"><label>模板名称 *</label><input id="t-name" placeholder="报名登记表"></div>
+            <div class="f"><label>样式</label><select id="t-style">
+              <option value="std">材料清单（编号 / 材料名称 / 份数 / 是否已备）</option>
+              <option value="form">空白填写表（项目 / 填写内容）</option>
+            </select></div>
+            <div class="f"><label>编号</label><input id="t-id" placeholder="tpl3"></div>
+          </div>
+          <div class="f"><label>列名（用 / 分隔）</label><input id="t-cols" placeholder="编号/材料名称/份数/是否已备"></div>
+          <button class="btn" id="tplAdd">新建</button>
+        </div>
+      </div>
+
+      <div class="sec" id="s-data">
+        <h2 class="pt">数据导入导出</h2>
+        <p class="ps">数据保存在本机浏览器。换电脑或清缓存前请先导出。</p>
+        <div class="card">
+          <h3>导出</h3>
+          <p class="hint">导出一个 JSON 文件，包含全部内容和模板。</p>
+          <button class="btn" id="expBtn">导出 JSON</button>
+        </div>
+        <div class="card">
+          <h3>导入</h3>
+          <p class="hint">选择之前导出的 JSON，覆盖当前数据。</p>
+          <input type="file" id="impFile" accept=".json" style="margin-bottom:12px">
+          <button class="btn ghost" id="impBtn">导入</button>
+        </div>
+        <div class="card">
+          <h3>恢复初始数据</h3>
+          <p class="hint">清掉本机改动，回到门户自带的 47 条内容。</p>
+          <button class="btn danger" id="rstBtn">恢复初始</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="assets/js/admin.js"></script>
+</body>
+</html>
